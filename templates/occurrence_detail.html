@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <h2>Ocorrência #{{ occurrence.id }}</h2>
+  <p><strong>Área:</strong> {{ occurrence.area_name }}</p>
+  <p><strong>Tipo:</strong> {{ occurrence.occurrence_type }}</p>
+  <p><strong>Prioridade:</strong> {{ occurrence.priority }}</p>
+  <p><strong>Status atual:</strong> {{ occurrence.status }}</p>
+  <p><strong>Solicitante:</strong> {{ occurrence.requester_name }}</p>
+  <p><strong>Responsável:</strong> {{ occurrence.responsible_name }}</p>
+  <p><strong>Descrição:</strong> {{ occurrence.description }}</p>
+
+  <h3>Atualizar status</h3>
+  <form method="post" class="grid">
+    <input type="hidden" name="old_status" value="{{ occurrence.status }}">
+    <label>Status
+      <select name="status" required>
+        {% for s in statuses %}<option value="{{ s }}" {% if s == occurrence.status %}selected{% endif %}>{{ s }}</option>{% endfor %}
+      </select>
+    </label>
+    <label class="full">Comentário
+      <textarea name="comment" rows="3" placeholder="Descreva a atualização..."></textarea>
+    </label>
+    <button type="submit">Salvar alteração</button>
+  </form>
+
+  {% if images %}
+  <h3>Imagens anexadas</h3>
+  <ul>
+    {% for image in images %}<li>{{ image.file_path }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+</section>
+
+<section class="card">
+  <h3>Histórico de alterações</h3>
+  <ul>
+    {% for h in history %}
+    <li>{{ h.changed_at }} - {{ h.changed_by }}: {{ h.old_status or '-' }} → {{ h.new_status }} | {{ h.comment }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

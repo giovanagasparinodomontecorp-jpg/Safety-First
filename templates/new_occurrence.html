@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
+<section class="card">
+  <h2>Registro de Nova Ocorrência</h2>
+  <form method="post" enctype="multipart/form-data" class="grid">
+    <label>Área/Local
+      <select name="area_id" required>
+        <option value="">Selecione</option>
+        {% for area in areas %}<option value="{{ area.id }}">{{ area.name }}</option>{% endfor %}
+      </select>
+    </label>
+
+    <label>Tipo de ocorrência
+      <select name="occurrence_type" required>
+        <option value="">Selecione</option>
+        {% for t in occurrence_types %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
+      </select>
+    </label>
+
+    <label>Prioridade
+      <select name="priority" required>
+        <option value="">Selecione</option>
+        {% for p in priorities %}<option value="{{ p }}">{{ p }}</option>{% endfor %}
+      </select>
+    </label>
+
+    <label>Responsável da área
+      <select name="responsible_id" required>
+        <option value="">Selecione</option>
+        {% for u in users %}<option value="{{ u.id }}">{{ u.name }} ({{ u.email }})</option>{% endfor %}
+      </select>
+    </label>
+
+    <label class="full">Descrição detalhada
+      <textarea name="description" rows="5" required></textarea>
+    </label>
+
+    <label class="full">Upload de imagens (múltiplas)
+      <input type="file" name="images" multiple accept="image/*">
+    </label>
+
+    <button type="submit">Registrar Ocorrência</button>
+  </form>
+</section>
+{% endblock %}
